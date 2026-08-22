@@ -233,7 +233,9 @@ $cartCount = is_array($_cart) ? array_sum($_cart) : 0;
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
         <div class="promo-popup-content">
-            <img src="<?= base_url('assets/images/popup-jacquelle.webp') ?>" alt="Popup Promo" class="promo-popup-img">
+            <a href="/categories/41446/toy-story-5" id="promoLink" aria-label="Lihat promo Toy Story 5">
+                <img src="<?= base_url('assets/images/popup-jacquelle.webp') ?>" alt="Popup Promo" class="promo-popup-img">
+            </a>
         </div>
     </div>
 </div>

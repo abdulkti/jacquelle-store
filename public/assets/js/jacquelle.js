@@ -511,6 +511,13 @@
     if (promoClose) promoClose.addEventListener('click', closePromoPopup);
     if (promoBackdrop) promoBackdrop.addEventListener('click', closePromoPopup);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePromoPopup(); });
+    var promoOpenBtn = document.getElementById('promoOpenBtn');
+    if (promoOpenBtn) promoOpenBtn.addEventListener('click', function () { if (promoPopup) promoPopup.classList.add('open'); });
+    var promoLink = document.getElementById('promoLink');
+    if (promoLink) promoLink.addEventListener('click', function () {
+        try { sessionStorage.setItem('promoShown', '1'); } catch (e) {}
+        closePromoPopup();
+    });
     openPromoPopup();
 
     /* ---------- Top nav dropdowns ---------- */
