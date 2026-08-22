@@ -1,3 +1,5 @@
+<?= view('layout/admin_header', $data ?? []) ?>
+
 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
     <div>
         <h1 style="font-size:26px;font-weight:800;color:#121d3d;">Pesanan</h1>
@@ -83,3 +85,5 @@ $statusLabels = [
     <?php endforeach; ?>
 </div>
 <?php endif; ?>
+
+<?= view('layout/admin_footer') ?>
