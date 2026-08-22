@@ -25,6 +25,10 @@ class App extends BaseConfig
         if ($domain = env('RAILWAY_PUBLIC_DOMAIN')) {
             $this->baseURL = 'https://' . $domain . '/';
         }
+
+        if ($url = env('RENDER_EXTERNAL_URL')) {
+            $this->baseURL = $url . '/';
+        }
     }
 
     /**

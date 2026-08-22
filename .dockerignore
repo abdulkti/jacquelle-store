@@ -1,0 +1,9 @@
+.git
+.env
+tests
+writable/logs/*
+writable/cache/*
+writable/session/*
+writable/debugbar/*
+node_modules
+.DS_Store
