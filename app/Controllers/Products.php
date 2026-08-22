@@ -62,15 +62,20 @@ class Products extends BaseController
             35149 => 'best-seller.webp',
             35150 => 'gift-for-you.webp',
             35164 => 'beauty-tools.webp',
+            36413 => 'quby.webp',
+            36414 => 'mickey-minnie.webp',
+            36415 => 'disney-animals.webp',
+            36416 => 'disney-princess.webp',
+            36417 => 'ariel-the-little-mermaid-.webp',
             36418 => 'eye.webp',
             36419 => 'face.webp',
+            36420 => 'lip.webp',
             36893 => 'zootopia.webp',
             36980 => 'real-body-soul.webp',
             40030 => 'devil-wears-prada.webp',
             41446 => 'toy-story-5.webp',
-            36415 => 'disney-animals.webp',
-            36416 => 'disney-princess.webp',
-            36417 => 'ariel-the-little-mermaid-.webp',
+            35177 => 'winnie-the-pooh.webp',
+            35178 => 'inside-out.webp',
         ];
         $categoryBanner = null;
         if ($categoryId && isset($categoryBanners[(int) $categoryId])) {
