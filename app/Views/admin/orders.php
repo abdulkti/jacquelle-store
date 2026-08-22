@@ -1,5 +1,8 @@
-<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
-    <h1 style="font-size:28px;font-weight:700;">Pesanan Masuk</h1>
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
+    <div>
+        <h1 style="font-size:26px;font-weight:800;color:#121d3d;">Pesanan</h1>
+        <p style="font-size:13px;color:#94a3b8;margin-top:3px;">Kelola pesanan yang masuk dari toko.</p>
+    </div>
 </div>
 
 <?php if (session('success')): ?>
@@ -10,13 +13,6 @@
 <?php endif; ?>
 
 <?php
-$badgeStyles = [
-    'pending'   => 'background:#fef3c7;color:#92400e;',
-    'paid'      => 'background:#dbeafe;color:#1d4ed8;',
-    'shipped'   => 'background:#ede9fe;color:#6d28d9;',
-    'completed' => 'background:#dcfce7;color:#15803d;',
-    'cancelled' => 'background:#fee2e2;color:#b91c1c;',
-];
 $statusLabels = [
     'pending'   => 'Menunggu Bayar',
     'paid'      => 'Sudah Dibayar',
@@ -25,59 +21,61 @@ $statusLabels = [
     'cancelled' => 'Dibatalkan',
 ];
 ?>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
-    <a href="/admin/orders" style="padding:8px 18px;border-radius:99rem;font-size:13px;font-weight:600;<?= empty($filter) ? 'background:#121d3d;color:#fff;' : 'background:#fff;border:1px solid #e7eaec;color:#475569;' ?>">Semua (<?= array_sum($stats) ?>)</a>
+<div class="ord-tabs" style="margin-bottom:22px;">
+    <a href="/admin/orders" class="ord-tab <?= empty($filter) ? 'active' : '' ?>">Semua<em><?= array_sum($stats) ?></em></a>
     <?php foreach ($statuses as $s): ?>
-    <a href="/admin/orders?status=<?= $s ?>" style="padding:8px 18px;border-radius:99rem;font-size:13px;font-weight:600;<?= $filter === $s ? 'background:#121d3d;color:#fff;' : 'background:#fff;border:1px solid #e7eaec;color:#475569;' ?>"><?= $statusLabels[$s] ?> (<?= (int) $stats[$s] ?>)</a>
+    <a href="/admin/orders?status=<?= $s ?>" class="ord-tab <?= $filter === $s ? 'active' : '' ?>"><?= $statusLabels[$s] ?><em><?= (int) $stats[$s] ?></em></a>
     <?php endforeach; ?>
 </div>
 
 <?php if (empty($orders)): ?>
-<div class="adm-card" style="padding:48px;text-align:center;color:#64748b;">
-    <p style="font-size:15px;">Belum ada pesanan<?= $filter ? ' dengan status ini' : '' ?>.</p>
+<div class="ord-empty">
+    Belum ada pesanan<?= $filter ? ' dengan status ini' : '' ?>.
 </div>
 <?php else: ?>
 <div style="display:flex;flex-direction:column;gap:14px;">
     <?php foreach ($orders as $o): ?>
-    <div class="adm-card" style="padding:18px 20px;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">
-            <div style="display:flex;gap:14px;align-items:flex-start;">
-                <?php if (! empty($o['first_img'])): ?>
-                <img src="<?= esc(img_url($o['first_img'])) ?>" alt="" style="width:52px;height:52px;object-fit:cover;border-radius:10px;">
-                <?php endif; ?>
-                <div>
-                    <div style="font-size:15px;font-weight:800;color:#121d3d;"><?= esc($o['order_number']) ?></div>
-                    <div style="font-size:12.5px;color:#64748b;margin-top:2px;">
-                        <?= date('d M Y H:i', strtotime($o['created_at'])) ?> ·
-                        <?= (int) $o['items'] ?> produk ·
-                        <?= esc($o['payment_method'] === 'cod' ? 'COD' : 'Transfer Bank') ?>
-                    </div>
-                    <div style="font-size:13px;margin-top:6px;">
-                        <span style="font-weight:700;"><?= esc($o['customer_name']) ?></span>
-                        <a href="https://wa.me/62<?= preg_replace('/^0/', '', (string) $o['customer_phone']) ?>" target="_blank" style="color:#15803d;font-size:12.5px;font-weight:600;margin-left:6px;"><?= esc($o['customer_phone']) ?> (WA ↗)</a>
-                    </div>
+    <div class="ord-card">
+        <div class="ord-head">
+            <span class="ord-num"><?= esc($o['order_number']) ?></span>
+            <span class="ord-date"><?= date('d M Y · H:i', strtotime($o['created_at'])) ?></span>
+        </div>
+
+        <div class="ord-body">
+            <div>
+                <div class="ord-label">Pelanggan</div>
+                <div class="ord-name"><?= esc($o['customer_name']) ?></div>
+                <a class="ord-wa" href="https://wa.me/62<?= preg_replace('/^0/', '', (string) $o['customer_phone']) ?>" target="_blank" rel="noopener">
+                    <?= esc($o['customer_phone']) ?> · WhatsApp ↗
+                </a>
+            </div>
+            <div>
+                <div class="ord-label">Pengiriman</div>
+                <div class="ord-addr" title="<?= esc($o['address']) ?>">
+                    <?= esc($o['address']) ?><?php if (! empty($o['notes'])): ?> — <em>"<?= esc($o['notes']) ?>"</em><?php endif; ?>
                 </div>
             </div>
-            <div style="text-align:right;">
-                <div style="font-size:19px;font-weight:800;color:#121d3d;">Rp <?= number_format($o['total'], 0, '.', ',') ?></div>
-                <span style="display:inline-block;margin-top:4px;padding:4px 12px;border-radius:99rem;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;<?= $badgeStyles[$o['status']] ?? '' ?>"><?= $statusLabels[$o['status']] ?? esc($o['status']) ?></span>
+            <div>
+                <div class="ord-label">Total</div>
+                <div class="ord-total">Rp <?= number_format($o['total'], 0, '.', ',') ?></div>
+                <div class="ord-text"><?= (int) $o['items'] ?> produk · <?= esc($o['payment_method'] === 'cod' ? 'COD' : 'Transfer Bank') ?></div>
             </div>
         </div>
-        <div style="border-top:1px solid #f1f5f9;margin-top:14px;padding-top:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
-            <div style="font-size:13px;color:#475569;max-width:520px;">
-                <strong style="color:#121d3d;">Kirim ke:</strong> <?= esc($o['address']) ?>
-                <?php if (! empty($o['notes'])): ?><em style="color:#94a3b8;"> — "<?= esc($o['notes']) ?>"</em><?php endif; ?>
-            </div>
-            <div style="display:flex;align-items:center;gap:10px;">
-                <a href="/orders/<?= (int) $o['id'] ?>" target="_blank" style="background:#f1f5f9;color:#475569;padding:8px 14px;border-radius:8px;font-size:12.5px;font-weight:600;">Detail</a>
-                <form action="/admin/orders/status" method="post" style="display:flex;gap:8px;align-items:center;">
+
+        <div class="ord-foot">
+            <span class="ord-status st-<?= esc($o['status']) ?>">
+                <span class="ord-dot"></span><?= $statusLabels[$o['status']] ?? esc($o['status']) ?>
+            </span>
+            <div class="ord-actions">
+                <a href="/orders/<?= (int) $o['id'] ?>" target="_blank" class="ord-btn ord-btn-ghost">Detail ↗</a>
+                <form action="/admin/orders/status" method="post" style="display:flex;gap:8px;">
                     <input type="hidden" name="id" value="<?= (int) $o['id'] ?>">
-                    <select name="status" style="padding:8px 12px;border:1px solid #d8dee6;border-radius:8px;font-size:13px;font-weight:600;background:#fff;">
+                    <select name="status" class="ord-select">
                         <?php foreach ($statuses as $s): ?>
                         <option value="<?= $s ?>" <?= $o['status'] === $s ? 'selected' : '' ?>><?= $statusLabels[$s] ?></option>
                         <?php endforeach; ?>
                     </select>
-                    <button type="submit" style="background:#121d3d;color:#fff;padding:8px 16px;border:none;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer;">Simpan Status</button>
+                    <button type="submit" class="ord-btn ord-btn-primary">Simpan</button>
                 </form>
             </div>
         </div>
