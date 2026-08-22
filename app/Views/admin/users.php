@@ -1,11 +1,10 @@
-<?= view('layout/header', $data ?? []) ?>
+<?= view('layout/admin_header', $data ?? []) ?>
 
 <div class="admin-page" style="max-width:1280px;margin:0 auto;padding:24px 16px;">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
         <h1 style="font-size:28px;font-weight:700;">Kelola User <span style="font-size:14px;color:#6b7280;font-weight:400;">(<?= count($users) ?> user)</span></h1>
     </div>
 
-    <?= view('admin/_nav', ['tab' => $tab ?? 'users']) ?>
 
     <?php if (session('success')): ?>
     <div style="background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;padding:12px 16px;border-radius:10px;font-size:14px;margin-bottom:16px;"><?= esc(session('success')) ?></div>
@@ -78,4 +77,4 @@
     </div>
 </div>
 
-<?= view('layout/footer', $data ?? []) ?>
+<?= view('layout/admin_footer') ?>

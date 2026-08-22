@@ -1,4 +1,4 @@
-<?= view('layout/header', $data ?? []) ?>
+<?= view('layout/admin_header', $data ?? []) ?>
 
 <div class="admin-page" style="max-width:1280px;margin:0 auto;padding:24px 16px;">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
@@ -6,7 +6,6 @@
         <a href="/admin/products/new" class="btn" style="padding:10px 20px;font-size:13px;font-weight:600;">+ Tambah Produk</a>
     </div>
 
-    <?= view('admin/_nav', ['tab' => $tab ?? 'products']) ?>
 
     <?php if (session('success')): ?>
     <div style="background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;padding:12px 16px;border-radius:10px;font-size:14px;margin-bottom:16px;"><?= esc(session('success')) ?></div>
@@ -49,6 +48,7 @@
                     </td>
                     <td style="padding:12px 16px;"><span class="discount-badge"><?= (int) $p['discount_percent'] ?>%</span></td>
                     <td style="padding:12px 16px;white-space:nowrap;">
+                        <a href="/products/<?= (int) $p['id'] ?>/<?= rawurlencode($p['slug']) ?>" target="_blank" style="background:#f0fdf4;color:#15803d;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;">Lihat</a>
                         <a href="/admin/products/edit/<?= (int) $p['id'] ?>" style="background:#eff6ff;color:#1d4ed8;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;">Edit</a>
                         <form action="/admin/products/delete/<?= (int) $p['id'] ?>" method="post" style="display:inline;" onsubmit="return confirm('Hapus produk ini?');">
                             <button type="submit" style="background:#fef2f2;color:#b91c1c;padding:5px 12px;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">Hapus</button>
@@ -61,4 +61,4 @@
     </div>
 </div>
 
-<?= view('layout/footer', $data ?? []) ?>
+<?= view('layout/admin_footer') ?>

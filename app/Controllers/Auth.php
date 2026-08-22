@@ -39,7 +39,12 @@ class Auth extends BaseController
                     'isLoggedIn' => true,
                 ]);
 
-                return redirect()->to($this->request->getPost('redirect') ?: '/')->with('success', 'Selamat datang kembali, ' . $user['name'] . '!');
+                $target = $this->request->getPost('redirect');
+                if (! $target) {
+                    $target = ((int) ($user['is_admin'] ?? 0) === 1) ? '/admin' : '/';
+                }
+
+                return redirect()->to($target)->with('success', 'Selamat datang kembali, ' . $user['name'] . '!');
             }
 
             return redirect()->back()->withInput()->with('error', 'Email atau password salah.');

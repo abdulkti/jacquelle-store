@@ -1,4 +1,4 @@
-<?= view('layout/header', $data ?? []) ?>
+<?= view('layout/admin_header', $data ?? []) ?>
 
 <div class="admin-page" style="max-width:1280px;margin:0 auto;padding:24px 16px;">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
@@ -6,7 +6,6 @@
         <a href="/admin/products" class="btn btn-outline" style="padding:8px 16px;font-size:13px;">← Kembali</a>
     </div>
 
-    <?= view('admin/_nav', ['tab' => $tab ?? 'products']) ?>
 
     <?php if (! empty($errors)): ?>
     <div style="background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;padding:12px 16px;border-radius:10px;font-size:14px;margin-bottom:16px;">
@@ -110,4 +109,4 @@
     </form>
 </div>
 
-<?= view('layout/footer', $data ?? []) ?>
+<?= view('layout/admin_footer') ?>
