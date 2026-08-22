@@ -10,9 +10,9 @@
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:32px;">
         <?php $cards = [
             ['label' => 'Total Produk', 'value' => number_format($stats['products']), 'icon' => '🛍️'],
+            ['label' => 'Pesanan Pending', 'value' => number_format($stats['pending_orders'] ?? 0), 'icon' => '🔔'],
             ['label' => 'Total User',   'value' => number_format($stats['users']),    'icon' => '👤'],
             ['label' => 'Total Kategori', 'value' => number_format($stats['categories']), 'icon' => '🏷️'],
-            ['label' => 'Produk Diskon', 'value' => number_format($stats['discounts']), 'icon' => '🏷️'],
         ]; ?>
         <?php foreach ($cards as $c): ?>
         <div style="background:#fff;border:1px solid #e7eaec;border-radius:12px;padding:20px 16px;box-shadow:0 2px 15px -3px rgba(18,29,61,.1);">

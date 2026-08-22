@@ -25,6 +25,10 @@
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M20.59 13.41L11 3.83A2 2 0 0 0 9.59 3.24H4A1 1 0 0 0 3 4.24V9.83A2 2 0 0 0 3.59 11.24L13.17 20.83A2 2 0 0 0 16 20.83L20.59 16.24A2 2 0 0 0 20.59 13.41Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="7.5" cy="7.5" r="1.5" fill="currentColor"/></svg>
                 Kategori
             </a>
+            <a href="/admin/orders" class="<?= $tab === 'orders' ? 'active' : '' ?>">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M6 2L4 6V20C4 20.55 4.45 21 5 21H19C19.55 21 20 20.55 20 20V6L18 2H6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M4 6H20M16 10C16 11.66 14.21 13 12 13C9.79 13 8 11.66 8 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Pesanan
+            </a>
             <a href="/admin/users" class="<?= $tab === 'users' ? 'active' : '' ?>">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M2 21C2 17.13 5.13 14 9 14C12.87 14 16 17.13 16 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 4C17.93 4.55 19.36 6.3 19.36 8.44C19.36 10.58 17.93 12.33 16 12.88" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                 User

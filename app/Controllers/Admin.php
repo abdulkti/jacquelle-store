@@ -48,6 +48,7 @@ class Admin extends BaseController
                 'users'      => $this->db->table('users')->countAll(),
                 'categories' => $this->db->table('categories')->countAll(),
                 'discounts'  => $this->db->table('products')->where('discount_percent >', 0)->countAllResults(),
+                'pending_orders' => $this->db->table('orders')->where('status', 'pending')->countAllResults(),
             ],
             'products' => $products,
             'users'    => (new UserModel())->orderBy('id', 'ASC')->findAll(50),
@@ -389,6 +390,72 @@ class Admin extends BaseController
         (new UserModel())->delete($id);
 
         return redirect()->to('/admin/users')->with('success', 'User dihapus.');
+    }
+
+    public function orders()
+    {
+        if ($redirect = $this->requireAdmin()) {
+            return $redirect;
+        }
+
+        $statuses = ['pending', 'paid', 'shipped', 'completed', 'cancelled'];
+        $status   = $this->request->getGet('status');
+
+        $builder = $this->db->table('orders');
+        if ($status && in_array($status, $statuses, true)) {
+            $builder->where('status', $status);
+        }
+        $orders = $builder->orderBy('id', 'DESC')->limit(200)->get()->getResultArray();
+
+        foreach ($orders as &$o) {
+            $o['items']     = $this->db->table('order_items')->where('order_id', $o['id'])->countAllResults();
+            $o['first_img'] = $this->db->table('order_items')->select('product_image')->where('order_id', $o['id'])->orderBy('id')->get()->getRowArray()['product_image'] ?? null;
+        }
+        unset($o);
+
+        $statRows = $this->db->table('orders')->select('status, COUNT(*) AS c')->groupBy('status')->get()->getResultArray();
+        $stats    = array_fill_keys($statuses, 0);
+        foreach ($statRows as $r) {
+            $stats[$r['status']] = (int) $r['c'];
+        }
+
+        return view('admin/orders', [
+            'title'    => 'Pesanan Masuk - Jacquelle',
+            'active'   => 'admin',
+            'tab'      => 'orders',
+            'orders'   => $orders,
+            'stats'    => $stats,
+            'statuses' => $statuses,
+            'filter'   => $status,
+        ]);
+    }
+
+    public function orderStatus()
+    {
+        if ($redirect = $this->requireAdmin()) {
+            return $redirect;
+        }
+
+        $id     = (int) $this->request->getPost('id');
+        $status = $this->request->getPost('status');
+        $allowed = ['pending', 'paid', 'shipped', 'completed', 'cancelled'];
+
+        if (! in_array($status, $allowed, true)) {
+            return redirect()->back()->with('error', 'Status tidak valid.');
+        }
+
+        $order = $this->db->table('orders')->where('id', $id)->get()->getRowArray();
+        if (! $order) {
+            return redirect()->to('/admin/orders')->with('error', 'Pesanan tidak ditemukan.');
+        }
+
+        $this->db->table('orders')->where('id', $id)->update([
+            'status'     => $status,
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        return redirect()->to('/admin/orders' . ($order['status'] !== $status ? '' : ''))
+            ->with('success', 'Status pesanan ' . $order['order_number'] . ' diubah menjadi ' . ucfirst($status) . '.');
     }
 
     private function slugify(string $text): string
