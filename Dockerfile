@@ -14,5 +14,6 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 COPY . .
 
-EXPOSE 10000
+EXPOSE 7860
+ENV PORT=7860
 CMD php spark serve --host 0.0.0.0 --port $PORT
