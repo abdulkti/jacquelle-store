@@ -29,6 +29,10 @@ class App extends BaseConfig
         if ($url = env('RENDER_EXTERNAL_URL')) {
             $this->baseURL = $url . '/';
         }
+
+        if ($domain = env('VERCEL_PROJECT_PRODUCTION_URL') ?: env('VERCEL_URL')) {
+            $this->baseURL = 'https://' . $domain . '/';
+        }
     }
 
     /**

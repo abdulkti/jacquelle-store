@@ -55,6 +55,17 @@ class Paths
      */
     public string $writableDirectory = __DIR__ . '/../../writable';
 
+    public function __construct()
+    {
+        // Serverless platforms (Vercel) have read-only filesystem except /tmp
+        if (getenv('VERCEL')) {
+            $this->writableDirectory = sys_get_temp_dir() . '/jacquelle-writable';
+            foreach (['session', 'cache', 'logs', 'debugbar', 'uploads'] as $dir) {
+                @mkdir($this->writableDirectory . '/' . $dir, 0777, true);
+            }
+        }
+    }
+
     /**
      * ---------------------------------------------------------------
      * TESTS DIRECTORY NAME
