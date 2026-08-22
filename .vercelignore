@@ -1,0 +1,12 @@
+tests
+builds
+writable
+.git
+.env
+.env.local
+.vercel
+Dockerfile
+.dockerignore
+nixpacks.toml
+README.md
+phpunit*
