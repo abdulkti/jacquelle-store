@@ -57,6 +57,20 @@ class Products extends BaseController
             $cat = null;
         }
 
+        $disneyCatIds = [35177, 35178, 36413, 36414, 36415, 36416, 36417, 36893];
+        $makeupCatIds = [36418, 36419, 36420];
+        $categoryBanner = null;
+        if ($categoryId) {
+            $cid = (int) $categoryId;
+            if ($cid === 41446) {
+                $categoryBanner = ['image' => 'assets/images/banner_toy_story.webp', 'alt' => 'Banner Toy Story 5'];
+            } elseif (in_array($cid, $disneyCatIds, true)) {
+                $categoryBanner = ['image' => 'assets/images/banner_disney.webp', 'alt' => 'Banner Disney Edition'];
+            } elseif (in_array($cid, $makeupCatIds, true)) {
+                $categoryBanner = ['image' => 'assets/images/banner_makeup.webp', 'alt' => 'Banner Makeup'];
+            }
+        }
+
         if ($q) {
             $model->groupStart();
             $model->where('LOWER(name) LIKE', '%' . strtolower($q) . '%');
@@ -98,6 +112,7 @@ class Products extends BaseController
             'products'   => $products,
             'categories' => $categories,
             'categoryId' => $categoryId ? (int) $categoryId : null,
+            'categoryBanner' => $categoryBanner,
             'type'       => $type,
             'q'          => $q,
             'price'      => $price,

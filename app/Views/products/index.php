@@ -124,6 +124,12 @@ $typeUrl = function ($t) {
                 </button>
             </div>
 
+            <?php if (! empty($categoryBanner)): ?>
+            <section class="banner-section category-banner">
+                <img class="banner-slide-img" src="<?= base_url($categoryBanner['image']) ?>" alt="<?= esc($categoryBanner['alt']) ?>">
+            </section>
+            <?php endif; ?>
+
             <?php if (empty($products)): ?>
                 <div class="products-empty">
                     <p>Tidak ada produk ditemukan.</p>
