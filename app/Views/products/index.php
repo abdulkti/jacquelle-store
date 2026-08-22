@@ -28,6 +28,12 @@ $typeUrl = function ($t) {
 };
 ?>
 
+<?php if (! empty($categoryBanner)): ?>
+<section class="banner-section category-banner">
+    <img class="banner-slide-img" src="<?= base_url($categoryBanner['image']) ?>" alt="<?= esc($categoryBanner['alt']) ?>" fetchpriority="high">
+</section>
+<?php endif; ?>
+
 <div class="products-page">
     <div class="products-layout">
         <aside class="products-sidebar" id="productsSidebar">
@@ -110,6 +116,7 @@ $typeUrl = function ($t) {
 
         <div class="products-main">
             <div class="products-head animate-to-top">
+                <?php if (empty($categoryBanner)): ?>
                 <div>
                     <h1><?= esc($heading ?? 'All Products') ?></h1>
                     <?php if (! empty($q)): ?>
@@ -118,17 +125,14 @@ $typeUrl = function ($t) {
                     <p><?= count($products) ?> produk</p>
                     <?php endif; ?>
                 </div>
+                <?php else: ?>
+                <div></div>
+                <?php endif; ?>
                 <button type="button" class="btn btn-outline products-filter-btn" id="productsFilterBtn">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 8.18V3a1 1 0 0 0-2 0v5.18a3 3 0 0 0 0 5.64V21a1 1 0 0 0 2 0v-7.18a3 3 0 0 0 0-5.64M19 12a1 1 0 1 1 1-1 1 1 0 0 1-1 1m-6 2.18V3a1 1 0 0 0-2 0v11.18a3 3 0 0 0 0 5.64V21a1 1 0 0 0 2 0v-1.18a3 3 0 0 0 0-5.64M12 18a1 1 0 1 1 1-1 1 1 0 0 1-1 1M6 6.18V3a1 1 0 0 0-2 0v3.18a3 3 0 0 0 0 5.64V21a1 1 0 0 0 2 0v-9.18a3 3 0 0 0 0-5.64M5 10a1 1 0 1 1 1-1 1 1 0 0 1-1 1" stroke="currentcolor" stroke-width="1.8" stroke-linecap="round"/></svg>
                     Filter
                 </button>
             </div>
-
-            <?php if (! empty($categoryBanner)): ?>
-            <section class="banner-section category-banner">
-                <img class="banner-slide-img" src="<?= base_url($categoryBanner['image']) ?>" alt="<?= esc($categoryBanner['alt']) ?>">
-            </section>
-            <?php endif; ?>
 
             <?php if (empty($products)): ?>
                 <div class="products-empty">

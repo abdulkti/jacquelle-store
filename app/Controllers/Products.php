@@ -57,18 +57,27 @@ class Products extends BaseController
             $cat = null;
         }
 
-        $disneyCatIds = [35177, 35178, 36413, 36414, 36415, 36416, 36417, 36893];
-        $makeupCatIds = [36418, 36419, 36420];
+        $categoryBanners = [
+            35148 => 'new-arrivals.webp',
+            35149 => 'best-seller.webp',
+            35150 => 'gift-for-you.webp',
+            35164 => 'beauty-tools.webp',
+            36418 => 'eye.webp',
+            36419 => 'face.webp',
+            36893 => 'zootopia.webp',
+            36980 => 'real-body-soul.webp',
+            40030 => 'devil-wears-prada.webp',
+            41446 => 'toy-story-5.webp',
+            36415 => 'disney-animals.webp',
+            36416 => 'disney-princess.webp',
+            36417 => 'ariel-the-little-mermaid-.webp',
+        ];
         $categoryBanner = null;
-        if ($categoryId) {
-            $cid = (int) $categoryId;
-            if ($cid === 41446) {
-                $categoryBanner = ['image' => 'assets/images/banner_toy_story.webp', 'alt' => 'Banner Toy Story 5'];
-            } elseif (in_array($cid, $disneyCatIds, true)) {
-                $categoryBanner = ['image' => 'assets/images/banner_disney.webp', 'alt' => 'Banner Disney Edition'];
-            } elseif (in_array($cid, $makeupCatIds, true)) {
-                $categoryBanner = ['image' => 'assets/images/banner_makeup.webp', 'alt' => 'Banner Makeup'];
-            }
+        if ($categoryId && isset($categoryBanners[(int) $categoryId])) {
+            $categoryBanner = [
+                'image' => 'assets/images/categories/' . $categoryBanners[(int) $categoryId],
+                'alt'   => $cat['name'] ?? '',
+            ];
         }
 
         if ($q) {

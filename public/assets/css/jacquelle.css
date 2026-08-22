@@ -418,8 +418,11 @@ button { font-family: inherit; cursor: pointer; background: none; border: none; 
 }
 
 /* Category page banner */
-.products-main .category-banner {
-    padding: 4px 0 8px;
+.category-banner {
+    padding: 0 0 4px;
+}
+.category-banner .banner-slide-img {
+    border-radius: 0;
 }
 
 /* Free gift badge */
