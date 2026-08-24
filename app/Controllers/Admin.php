@@ -466,7 +466,7 @@ class Admin extends BaseController
 
         $out = [];
         foreach (['categories', 'products', 'product_categories', 'users', 'orders', 'order_items'] as $t) {
-            $out[$t] = $this->db->table($t)->orderBy('id')->get()->getResultArray();
+            $out[$t] = $this->db->table($t)->get()->getResultArray();
         }
 
         return $this->response->setJSON($out);
