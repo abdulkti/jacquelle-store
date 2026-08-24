@@ -41,6 +41,7 @@ $routes->post('/admin/categories/save', 'Admin::categorySave');
 $routes->post('/admin/categories/delete/(:num)', 'Admin::categoryDelete/$1');
 $routes->get('/admin/orders', 'Admin::orders');
 $routes->post('/admin/orders/status', 'Admin::orderStatus');
+$routes->get('/admin/data-export', 'Admin::dataExport');
 $routes->get('/admin/users', 'Admin::users');
 $routes->post('/admin/users/save', 'Admin::userSave');
 $routes->post('/admin/users/delete/(:num)', 'Admin::userDelete/$1');

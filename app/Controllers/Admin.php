@@ -458,6 +458,20 @@ class Admin extends BaseController
             ->with('success', 'Status pesanan ' . $order['order_number'] . ' diubah menjadi ' . ucfirst($status) . '.');
     }
 
+    public function dataExport()
+    {
+        if ($redirect = $this->requireAdmin()) {
+            return $redirect;
+        }
+
+        $out = [];
+        foreach (['categories', 'products', 'product_categories', 'users', 'orders', 'order_items'] as $t) {
+            $out[$t] = $this->db->table($t)->orderBy('id')->get()->getResultArray();
+        }
+
+        return $this->response->setJSON($out);
+    }
+
     private function slugify(string $text): string
     {
         $text = strtolower(trim($text));
